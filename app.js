@@ -1,5 +1,6 @@
 const express = require('express');
 var fs = require('fs');
+const multer = require('multer');
 
 const app = express();
 
@@ -17,7 +18,6 @@ app.get('/visitas',async (req,res)=>{
     res.send(`Has visitado este endpoint ${counter} veces`)
 })
 
-//Idea de cómo utilizar para traer productos de tu fs en tu desafí
 app.get('/productos',async (req,res)=>{
     let productos = await contenedor.GETPRODUCTOS
 });
@@ -30,5 +30,26 @@ function contenedor() {
         console.log(array[i]);
     } 
 });
+
+//Storage
+let storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'/productos');
+    },
+    filename:function(req,file,cb){
+        cb(null,Date.now()+"-"+file.originalname);
+    }
+})
+let uploader = multer({storage:storage})
+
+app.post('/upload',uploader.single('file'),(req,res)=>{
+    let file = req.file;
+    console.log(req.body);
+    res.send({message:file})
+})
+app.post('/uploadMultiple',uploader.array('files',2),(req,res)=>{
+    let files = req.files;
+    res.send({files:files});
+})
 }
 contenedor();
