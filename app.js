@@ -1,34 +1,31 @@
 const express = require('express');
-var fs = require('fs');
+const port = 8080;
 const multer = require('multer');
-
 const app = express();
+const server = app.listen(port, ()=>console.log(`Listening on ${port}`));
 
-const server = app.listen(8080,()=>{
-    console.log("Listening on port 8080");
-});
-
-let counter=0;
+// let counter=0;
 
 app.get('/',(req,res)=>{
     res.send('<h1 style="color:blue;">Bienvenidos al servidor express</h1>')
 })
-app.get('/visitas',async (req,res)=>{
+/* app.get('/visitas',async (req,res)=>{
     counter++;
     res.send(`Has visitado este endpoint ${counter} veces`)
 })
 
 app.get('/productos',async (req,res)=>{
     let productos = await contenedor.GETPRODUCTOS
-});
+}); */
+app.set('view engine', 'ejs');
 
-function contenedor() {
- fs.readFile('productos.txt', function(err, data) { 
-    if(err) throw err; 
-    var array = data.toString().split("\n"); 
-    for(i in array) { 
-        console.log(array[i]);
-    } 
+app.get('/', function(req, res) {
+      var productos = [
+         {name: "Apple IPhone 13 Pro", price: 1299.99, img: "https://http2.mlstatic.com/D_NQ_NP_840175-MLA47779316482_102021-O.webp",},
+         {name: "Apple IPhone 12 Pro", price: 1099.99, img: "https://http2.mlstatic.com/D_NQ_NP_824876-MLA43975720984_112020-O.webp",},
+         {name: "Samsung Galaxy S21+", price: 849.99, img: "https://http2.mlstatic.com/D_NQ_NP_976371-MLA45566612445_042021-O.webp",},
+         {name: "Xiaomi Mi 11 Ultra", price: 919.99, img: "https://http2.mlstatic.com/D_NQ_NP_751583-MLA46773535610_072021-O.webp",}
+        ]
 });
 
 //Storage
@@ -51,5 +48,8 @@ app.post('/uploadMultiple',uploader.array('files',2),(req,res)=>{
     let files = req.files;
     res.send({files:files});
 })
-}
-contenedor((console.log("hola mundo")));
+app.get('views', '/cards',(req,res)=>{
+let mostrarcontenedor = contenedor;
+res.send(mostrarcontenedor);
+    res.render('views/cards',{productos:productos});
+});
