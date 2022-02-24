@@ -1,8 +1,27 @@
 const express = require('express');
-const port = 8080;
+const {Server} = require('socket.io');
+
+const port = process.env.PORT||8080;
 const multer = require('multer');
 const app = express();
 const server = app.listen(port, ()=>console.log(`Listening on ${port}`));
+const io = new Server(server);
+
+let log = [];
+app.use(express.static(__dirname+'/public'))
+
+
+io.on('connection',(socket)=>{
+    socket.broadcast.emit('newUser')
+    
+    socket.on('message',data=>{
+        log.push(data);
+        io.emit('log',log);
+    })
+    socket.on('registered',data=>{
+        socket.emit('log',log);
+    })
+})
 
 // let counter=0;
 
