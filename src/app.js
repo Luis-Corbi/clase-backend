@@ -1,7 +1,7 @@
 const express = require('express');
 const {Server} = require('socket.io');
 
-const port = process.env.PORT||8080;
+const port = process.env.port||8080;
 const multer = require('multer');
 const server = app.listen(port, ()=>console.log(`Listening on ${port}`));
 const io = new Server(server);
