@@ -2,7 +2,8 @@ const express = require('express');
 const {Server} = require('socket.io');
 
 const port = process.env.port||8080;
-const multer = require('multer');
+const app = express();
+// const multer = require('multer');
 const server = app.listen(port, ()=>console.log(`Listening on ${port}`));
 const io = new Server(server);
 
@@ -47,7 +48,7 @@ app.get('/', function(req, res) {
 });
 
 //Storage
-let storage = multer.diskStorage({
+/* let storage = multer.diskStorage({
     destination:function(req,file,cb){
         cb(null,'/productos');
     },
@@ -55,7 +56,7 @@ let storage = multer.diskStorage({
         cb(null,Date.now()+"-"+file.originalname);
     }
 })
-let uploader = multer({storage:storage})
+let uploader = multer({storage:storage}) */
 
 app.post('/upload',uploader.single('file'),(req,res)=>{
     let file = req.file;
