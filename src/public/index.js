@@ -1,46 +1,20 @@
-const socket = io();
-let user;
-let chatBox = document.getElementById('chatBox');
-Swal.fire({
-    title:"Identifícate",
-    input:"text",
-    text:"Ingresa el nombre de usuario que utilizarás en el chat",
-    inputValidator: (value)=>{
-        return !value && "¡Necesitas identificarte para poder usar el chat! >:("
-    },
-    allowOutsideClick:false
-}).then(result=>{
-    user=result.value;
-    socket.emit('registered',user);
+const LogoutBtn = document.getElementById("logout-btn");
+const LoggedContainer =document.getElementById("logged-container");
+const NotLoggedContainer =document.getElementById("not-logged-container");
+LogoutBtn.addEventListener('click',(e)=>{
+    localStorage.removeItem("token");
+    localStorage.removeItem('username');
+    location.href="/";
 })
-
-chatBox.addEventListener('keyup',(evt)=>{
-
-    if(evt.key==="Enter"){
-        if(chatBox.value.trim().length>0){
-            socket.emit('message',{user:user,message:chatBox.value.trim()})
-            chatBox.value="";
-        }
+window.onload = ()=>{
+    const tokenLocal = localStorage.getItem('token');
+    if(tokenLocal === null || !tokenLocal){
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        LoggedContainer.style.display = "none";
+        NotLoggedContainer.style.display = "block";
+    } else{
+        LoggedContainer.style.display = "block";
+        NotLoggedContainer.style.display = "none";
     }
-})
-
-//SOCKETS
-socket.on('newUser',(data)=>{
-
-    //alert("New user");
-    
-    // Swal.fire({
-    //     icon:"success",
-    //     text:"Usuario nuevo conectado",
-    //     toast:true,
-    //     position:"top-right",
-    // })
-})
-socket.on('log',data=>{
-    let log = document.getElementById('log')
-    let messages = "";
-    data.forEach(message=>{
-        messages  = messages+ `${message.user} dice: ${message.message}</br>`;
-    })
-    log.innerHTML = messages;
-})
+}
