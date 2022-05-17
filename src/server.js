@@ -7,10 +7,11 @@ const User = require("./models/User.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
+const PORT = process.argv[2] || 8080
 const app = express();
 
-app.listen(8080,()=>{
-    console.log("listening on port 8080")
+app.listen(PORT, ()=>{
+    console.log(`LISTING IN PORT ${PORT} in process ${process.pid}`)
 })
 
 //archivos estaticos
