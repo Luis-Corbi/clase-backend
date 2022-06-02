@@ -1,12 +1,7 @@
-import express from 'express'
-import cluster from 'cluster'
-import { cpus } from 'os'
-
-
+const express = require("express");
+const cluster = require("cluster");
+const { cpus } = require("os");
 const crypto = require("crypto");
-const path = require("path");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 
 const users = {}
 const PORT = parseInt(process.argv[2]) || 8080
@@ -38,8 +33,7 @@ if (modoCluster && cluster.isPrimary) {
         console.log(`PID WORKER ${process.pid}`)
     })
  }
- 
-
+ /*
  app.get("/getUsers", (req, res) => {
     res.json({ users })
   })
@@ -93,9 +87,9 @@ if (modoCluster && cluster.isPrimary) {
       process.exit(1)
       // return res.sendStatus(400);
     }
-    const { salt } = users[userName];
+    const { salt } = users[username];
   crypto.pbkdf2(password, salt, 10000, 512, "sha512", (err, hash) => {
-    if (users[userName].hash.toString() === hash.toString()) {
+    if (users[username].hash.toString() === hash.toString()) {
       res.sendStatus(200);
     } else {
       process.exit(1);
@@ -106,3 +100,4 @@ if (modoCluster && cluster.isPrimary) {
 app.listen(PORT, () => {
   console.log(`sever run - ${PORT}`);
 });
+*/
