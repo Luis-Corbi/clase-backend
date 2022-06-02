@@ -1,10 +1,10 @@
 {
   "name": "clase-backend",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "node src/public/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "src/public/server.js"
+    "start": "node src/public/server.js"
   },
   "keywords": [],
   "author": "",
