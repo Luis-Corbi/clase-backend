@@ -7,7 +7,7 @@ const users = {}
 const PORT = parseInt(process.argv[2]) || 8080
 const modoCluster = process.argv[3] == 'CLUSTER'
 
-if (modoCluster && cluster.isPrimary) {
+/* if (modoCluster && cluster.isPrimary) {
     const numCPUs = cpus().length
  
     console.log(`Número de procesadores: ${numCPUs}`)
@@ -21,7 +21,7 @@ if (modoCluster && cluster.isPrimary) {
         console.log('Worker', worker.process.pid, 'died', new Date().toLocaleString())
         cluster.fork()
     })
- }
+ } */
 
   const app = express()
   app.get('/', (req, res) => {
