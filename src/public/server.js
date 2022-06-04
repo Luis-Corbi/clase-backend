@@ -1,96 +1,20 @@
-const express = require("express");
-const cluster = require("cluster");
-const { cpus } = require("os");
-const crypto = require("crypto");
-
-const users = {}
-const PORT = parseInt(process.argv[2]) || 8080
-const modoCluster = process.argv[3] == 'CLUSTER'
-
-/* if (modoCluster && cluster.isPrimary) {
-    const numCPUs = cpus().length
- 
-    console.log(`Número de procesadores: ${numCPUs}`)
-    console.log(`PID MASTER ${process.pid}`)
- 
-    for (let i = 0; i < numCPUs; i++) {
-        cluster.fork()
+const LogoutBtn = document.getElementById("logout-btn");
+const LoggedContainer =document.getElementById("logged-container");
+const NotLoggedContainer =document.getElementById("not-logged-container");
+LogoutBtn.addEventListener('click',(e)=>{
+    localStorage.removeItem("token");
+    localStorage.removeItem('username');
+    location.href="/";
+})
+window.onload = ()=>{
+    const tokenLocal = localStorage.getItem('token');
+    if(tokenLocal === null || !tokenLocal){
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        LoggedContainer.style.display = "none";
+        NotLoggedContainer.style.display = "block";
+    } else{
+        LoggedContainer.style.display = "block";
+        NotLoggedContainer.style.display = "none";
     }
- 
-    cluster.on('exit', worker => {
-        console.log('Worker', worker.process.pid, 'died', new Date().toLocaleString())
-        cluster.fork()
-    })
- } */
-
-  const app = express()
-  app.get('/', (req, res) => {
-      res.send('prueba subida heroku');
-  })
- 
- app.get("/getUsers", (req, res) => {
-    res.json({ users })
-  })
-  
-  app.get("/newUser", (req, res) => {
-    let username = req.query.username || "";
-    const password = req.query.password || "";
-  
-    username = username.replace(/[!@#$%^&*]/g, "");
-  
-    if (!username || !password || users[username]) {
-      return res.sendStatus(400);
-    }
-  
-    const salt = crypto.randomBytes(128).toString("base64");
-    const hash = crypto.pbkdf2Sync(password, salt, 10000, 512, "sha512");
-  
-    users[username] = { salt, hash };
-  
-    res.sendStatus(200);
-  });
-  
-  app.get("/auth-bloq", (req, res) => {
-    let username = req.query.username || "";
-    const password = req.query.password || "";
-  
-    username = username.replace(/[!@#$%^&*]/g, "");
-  
-    if (!username || !password || !users[username]) {
-      process.exit(1)
-      // return res.sendStatus(400);
-    }
-  
-    const { salt, hash } = users[username];
-    const encryptHash = crypto.pbkdf2Sync(password, salt, 10000, 512, "sha512");
-  
-    if (crypto.timingSafeEqual(hash, encryptHash)) {
-      res.sendStatus(200);
-    } else {
-      process.exit(1)
-      // res.sendStatus(401);
-    }
-  });
-
-  app.get("/auth-nobloq", (req, res) => {
-    let username = req.query.username || "";
-    const password = req.query.password || "";
-    username = username.replace(/[!@#$%^&*]/g, "");
-  
-    if (!username || !password || !users[username]) {
-      process.exit(1)
-      // return res.sendStatus(400);
-    }
-    const { salt } = users[username];
-  crypto.pbkdf2(password, salt, 10000, 512, "sha512", (err, hash) => {
-    if (users[username].hash.toString() === hash.toString()) {
-      res.sendStatus(200);
-    } else {
-      process.exit(1);
-    }
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`sever run - ${PORT}`);
-});
+}
