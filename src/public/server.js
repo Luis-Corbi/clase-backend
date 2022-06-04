@@ -21,19 +21,9 @@ if (modoCluster && cluster.isPrimary) {
         console.log('Worker', worker.process.pid, 'died', new Date().toLocaleString())
         cluster.fork()
     })
- } else {
+ } 
     const app = express()
-    app.use(express.static('public'))
-    app.get('/', (req, res) => {
-        res.send('prueba subida heroku');
-    })
  
-    app.listen(PORT, () => {
-        console.log(`Servidor express escuchando en el puerto ${PORT}`)
-        console.log(`PID WORKER ${process.pid}`)
-    })
- }
- /*
  app.get("/getUsers", (req, res) => {
     res.json({ users })
   })
@@ -100,4 +90,3 @@ if (modoCluster && cluster.isPrimary) {
 app.listen(PORT, () => {
   console.log(`sever run - ${PORT}`);
 });
-*/
