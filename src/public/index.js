@@ -27,7 +27,7 @@ const modoCluster = process.argv[3] == 'CLUSTER'
   app.get('/', (req, res) => {
       res.send('prueba subida heroku');
   })
- 
+ /*
  app.get("/getUsers", (req, res) => {
     res.json({ users })
   })
@@ -90,7 +90,7 @@ const modoCluster = process.argv[3] == 'CLUSTER'
     }
   });
 });
-
+*/
 app.listen(PORT, () => {
   console.log(`sever run - ${PORT}`);
 });
