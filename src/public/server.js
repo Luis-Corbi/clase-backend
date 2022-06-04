@@ -21,8 +21,12 @@ if (modoCluster && cluster.isPrimary) {
         console.log('Worker', worker.process.pid, 'died', new Date().toLocaleString())
         cluster.fork()
     })
- } 
-    const app = express()
+ }
+
+  const app = express()
+  app.get('/', (req, res) => {
+      res.send('prueba subida heroku');
+  })
  
  app.get("/getUsers", (req, res) => {
     res.json({ users })
