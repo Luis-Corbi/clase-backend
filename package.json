@@ -5,11 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/public/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:clean && npm run build:copy && npm run build:webpack",
-    "build:clean": "rm -rf dist",
-    "build:copy": "cp -r src/public/dist dist",
-    "build:webpack": "webpack --config webpack.config.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
