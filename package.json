@@ -2,9 +2,14 @@
   "name": "clase-backend",
   "version": "1.0.0",
   "main": "node src/public/index.js",
+  "type": "module",
   "scripts": {
+    "start": "node src/public/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/public/index.js"
+    "build": "npm run build:clean && npm run build:copy && npm run build:webpack",
+    "build:clean": "rm -rf dist",
+    "build:copy": "cp -r src/public/dist dist",
+    "build:webpack": "webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -15,13 +20,14 @@
     "cluster": "^0.7.7",
     "compression": "^1.7.4",
     "ejs": "^3.1.6",
-    "express": "^4.17.3",
-    "express-session": "^1.17.2",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.4",
     "mongoose": "^6.3.2",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.7.5",
     "normalizr": "^3.6.2",
     "npm": "^8.5.4",
     "passport": "^0.5.2",
@@ -30,7 +36,8 @@
     "pug": "^3.0.2",
     "socket.io": "^4.4.1",
     "sqlite3": "^5.0.2",
-    "webpack": "^5.70.0",
+    "twilio": "^3.77.2",
+    "webpack": "^5.73.0",
     "webpack-cli": "^4.9.2"
   },
   "description": ""
